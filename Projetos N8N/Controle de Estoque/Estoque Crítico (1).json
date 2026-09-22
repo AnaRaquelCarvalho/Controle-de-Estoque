@@ -1,0 +1,1421 @@
+{
+  "name": "Estoque Crítico",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fd234944-67c7-4477-84ca-1e2cdadb42ac",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XNR6LgJm6HICV2jxpCcfbqKmhjGoHzHQ56MCfM5R6X0",
+          "mode": "list",
+          "cachedResultName": "Automatizando Análise de Estoque Crítico (Aula 1) - Estoque (1)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XNR6LgJm6HICV2jxpCcfbqKmhjGoHzHQ56MCfM5R6X0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 523944375,
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XNR6LgJm6HICV2jxpCcfbqKmhjGoHzHQ56MCfM5R6X0/edit#gid=523944375"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "7a5247cb-ce14-44e3-b574-2bd30c6c89d6",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IOa2kAaRegaCa4Su",
+          "name": "Google Sheets - Pessoal"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ecc7287b-b76c-4159-9a22-fd4388052f06",
+              "leftValue": "={{ $json.ESTOQUE_ATUAL }}",
+              "rightValue": "={{ $json.ESTOQUE_MINIMO }}",
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "997e26df-6949-4443-bc0b-0639eb0a148a",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "5f168482-1abb-45dd-b41a-ea64a6a22981",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "sendTo": "tvesportes11@gmail.com\ncontato@carvalhosystems.com",
+        "subject": "Envio de Planilha com estoque crítico",
+        "message": "Atençaõ! Os seguintes produtos estão com estoque abaixo do estoque crítico. Favor solicitar com urgencia ao fornecedor. Abraços Ana! ",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        0
+      ],
+      "id": "874e9417-a30b-44bd-bf48-dad3d37e0ef0",
+      "name": "Send a message",
+      "webhookId": "2ea5183f-b80f-4955-b23c-0287bbc60e54",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jCbjE0Ne2nd9CO7c",
+          "name": "Gmail - Pessoal"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ],
+    "Get row(s) in sheet": [
+      {
+        "json": {
+          "row_number": 2,
+          "ID": "P-001",
+          "PRODUTO": "Cadeira Ergonômica",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 3,
+          "ID": "P-002",
+          "PRODUTO": "Mouse Sem Fio",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 25,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 4,
+          "ID": "P-003",
+          "PRODUTO": "Monitor LED 24\"",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 8,
+          "ESTOQUE_MINIMO": 15
+        }
+      },
+      {
+        "json": {
+          "row_number": 5,
+          "ID": "P-004",
+          "PRODUTO": "Teclado Mecânico",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 6,
+          "ID": "P-005",
+          "PRODUTO": "Webcam Full HD",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 12,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 7,
+          "ID": "P-006",
+          "PRODUTO": "Mesa de Reunião",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 1,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 8,
+          "ID": "P-007",
+          "PRODUTO": "Cabo HDMI 2m",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 35,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 9,
+          "ID": "P-008",
+          "PRODUTO": "Headset USB",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 10,
+          "ID": "P-009",
+          "PRODUTO": "Notebook 14\"",
+          "CATEGORIA": "Informática",
+          "ESTOQUE_ATUAL": 6,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 11,
+          "ID": "P-010",
+          "PRODUTO": "Notebook 15,6\"",
+          "CATEGORIA": "Informática",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 12,
+          "ID": "P-011",
+          "PRODUTO": "Suporte para Monitor",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 15,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 13,
+          "ID": "P-012",
+          "PRODUTO": "Gaveteiro 3 Gavetas",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 2,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 14,
+          "ID": "P-013",
+          "PRODUTO": "Armário Arquivo",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 5,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 15,
+          "ID": "P-014",
+          "PRODUTO": "Cadeira Visitante",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 10,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 16,
+          "ID": "P-015",
+          "PRODUTO": "Fone de Ouvido Bluetooth",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 20,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 17,
+          "ID": "P-016",
+          "PRODUTO": "Adaptador USB-C HDMI",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 14,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 18,
+          "ID": "P-017",
+          "PRODUTO": "Impressora Laser",
+          "CATEGORIA": "Informática",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 19,
+          "ID": "P-018",
+          "PRODUTO": "Cartucho de Tinta Preto",
+          "CATEGORIA": "Suprimentos",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 20,
+          "ID": "P-019",
+          "PRODUTO": "Cartucho de Tinta Colorido",
+          "CATEGORIA": "Suprimentos",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 21,
+          "ID": "P-020",
+          "PRODUTO": "Papel Sulfite A4 500fls",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 40,
+          "ESTOQUE_MINIMO": 20
+        }
+      },
+      {
+        "json": {
+          "row_number": 22,
+          "ID": "P-021",
+          "PRODUTO": "Bloco de Notas",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 30,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 23,
+          "ID": "P-022",
+          "PRODUTO": "Caneta Esferográfica Azul",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 200,
+          "ESTOQUE_MINIMO": 100
+        }
+      },
+      {
+        "json": {
+          "row_number": 24,
+          "ID": "P-023",
+          "PRODUTO": "Caneta Marca Texto",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 60,
+          "ESTOQUE_MINIMO": 30
+        }
+      },
+      {
+        "json": {
+          "row_number": 25,
+          "ID": "P-024",
+          "PRODUTO": "Pasta Suspensa",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 80,
+          "ESTOQUE_MINIMO": 40
+        }
+      },
+      {
+        "json": {
+          "row_number": 26,
+          "ID": "P-025",
+          "PRODUTO": "HD Externo 1TB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 7,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 27,
+          "ID": "P-026",
+          "PRODUTO": "HD Externo 2TB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 5,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 28,
+          "ID": "P-027",
+          "PRODUTO": "SSD 480GB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 12,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 29,
+          "ID": "P-028",
+          "PRODUTO": "SSD 1TB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 8,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 30,
+          "ID": "P-029",
+          "PRODUTO": "Switch 8 Portas",
+          "CATEGORIA": "Redes",
+          "ESTOQUE_ATUAL": 6,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 31,
+          "ID": "P-030",
+          "PRODUTO": "Roteador Wi-Fi AC",
+          "CATEGORIA": "Redes",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 32,
+          "ID": "P-031",
+          "PRODUTO": "Cabo de Rede 5m",
+          "CATEGORIA": "Redes",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 20
+        }
+      },
+      {
+        "json": {
+          "row_number": 33,
+          "ID": "P-032",
+          "PRODUTO": "Nobreak 1200VA",
+          "CATEGORIA": "Energia",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 34,
+          "ID": "P-033",
+          "PRODUTO": "Filtro de Linha",
+          "CATEGORIA": "Energia",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 35,
+          "ID": "P-034",
+          "PRODUTO": "Suporte para Notebook",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 16,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 36,
+          "ID": "P-035",
+          "PRODUTO": "Suporte para CPU",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 10,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 37,
+          "ID": "P-036",
+          "PRODUTO": "Lixeira 20L",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 14,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 38,
+          "ID": "P-037",
+          "PRODUTO": "Desinfetante 5L",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 39,
+          "ID": "P-038",
+          "PRODUTO": "Detergente Neutro",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 40,
+          "ID": "P-039",
+          "PRODUTO": "Álcool em Gel 500ml",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 30,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 41,
+          "ID": "P-040",
+          "PRODUTO": "Toalha de Papel",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 25,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 42,
+          "ID": "P-041",
+          "PRODUTO": "Café em Pó 500g",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 20,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 43,
+          "ID": "P-042",
+          "PRODUTO": "Açúcar Refinado 1kg",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 15,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 44,
+          "ID": "P-043",
+          "PRODUTO": "Copo Descartável 200ml",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 37,
+          "ESTOQUE_MINIMO": 50
+        }
+      },
+      {
+        "json": {
+          "row_number": 45,
+          "ID": "P-044",
+          "PRODUTO": "Guardanapo de Papel",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 60,
+          "ESTOQUE_MINIMO": 30
+        }
+      },
+      {
+        "json": {
+          "row_number": 46,
+          "ID": "P-045",
+          "PRODUTO": "Leite em Pó 400g",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 8,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 47,
+          "ID": "P-046",
+          "PRODUTO": "Cadeira Gamer",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 20,
+          "ESTOQUE_MINIMO": 17
+        }
+      },
+      {
+        "json": {
+          "row_number": 48,
+          "ID": "P-047",
+          "PRODUTO": "Suporte de Parede p/ TV",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 11,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 49,
+          "ID": "P-048",
+          "PRODUTO": "TV 50\" Sala Reunião",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 2,
+          "ESTOQUE_MINIMO": 2
+        }
+      },
+      {
+        "json": {
+          "row_number": 50,
+          "ID": "P-049",
+          "PRODUTO": "Projetor Multimídia",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 2
+        }
+      },
+      {
+        "json": {
+          "row_number": 51,
+          "ID": "P-050",
+          "PRODUTO": "Tela de Projeção",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 52,
+          "ID": "P-051",
+          "PRODUTO": "Hub USB 4 Portas",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 22,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 53,
+          "ID": "P-052",
+          "PRODUTO": "Leitor de Cartão SD",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 13,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 54,
+          "ID": "P-053",
+          "PRODUTO": "Scanner de Mesa",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 2,
+          "ESTOQUE_MINIMO": 2
+        }
+      },
+      {
+        "json": {
+          "row_number": 55,
+          "ID": "P-054",
+          "PRODUTO": "Microfone USB",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 56,
+          "ID": "P-055",
+          "PRODUTO": "Tripé para Webcam",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 12,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 57,
+          "ID": "P-056",
+          "PRODUTO": "Cadeira de Escritório Simples",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 58,
+          "ID": "P-057",
+          "PRODUTO": "Estante para Livros",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 6,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 59,
+          "ID": "P-058",
+          "PRODUTO": "Quadro Branco 120x90cm",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 5,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 60,
+          "ID": "P-059",
+          "PRODUTO": "Marcador para Quadro Branco",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 40,
+          "ESTOQUE_MINIMO": 15
+        }
+      },
+      {
+        "json": {
+          "row_number": 61,
+          "ID": "P-060",
+          "PRODUTO": "Apagador para Quadro Branco",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 10,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 2,
+          "ID": "P-001",
+          "PRODUTO": "Cadeira Ergonômica",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 3,
+          "ID": "P-002",
+          "PRODUTO": "Mouse Sem Fio",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 25,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 4,
+          "ID": "P-003",
+          "PRODUTO": "Monitor LED 24\"",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 8,
+          "ESTOQUE_MINIMO": 15
+        }
+      },
+      {
+        "json": {
+          "row_number": 5,
+          "ID": "P-004",
+          "PRODUTO": "Teclado Mecânico",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 6,
+          "ID": "P-005",
+          "PRODUTO": "Webcam Full HD",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 12,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 7,
+          "ID": "P-006",
+          "PRODUTO": "Mesa de Reunião",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 1,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 8,
+          "ID": "P-007",
+          "PRODUTO": "Cabo HDMI 2m",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 35,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 9,
+          "ID": "P-008",
+          "PRODUTO": "Headset USB",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 10,
+          "ID": "P-009",
+          "PRODUTO": "Notebook 14\"",
+          "CATEGORIA": "Informática",
+          "ESTOQUE_ATUAL": 6,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 11,
+          "ID": "P-010",
+          "PRODUTO": "Notebook 15,6\"",
+          "CATEGORIA": "Informática",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 12,
+          "ID": "P-011",
+          "PRODUTO": "Suporte para Monitor",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 15,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 13,
+          "ID": "P-012",
+          "PRODUTO": "Gaveteiro 3 Gavetas",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 2,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 14,
+          "ID": "P-013",
+          "PRODUTO": "Armário Arquivo",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 5,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 15,
+          "ID": "P-014",
+          "PRODUTO": "Cadeira Visitante",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 10,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 16,
+          "ID": "P-015",
+          "PRODUTO": "Fone de Ouvido Bluetooth",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 20,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 17,
+          "ID": "P-016",
+          "PRODUTO": "Adaptador USB-C HDMI",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 14,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 18,
+          "ID": "P-017",
+          "PRODUTO": "Impressora Laser",
+          "CATEGORIA": "Informática",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 19,
+          "ID": "P-018",
+          "PRODUTO": "Cartucho de Tinta Preto",
+          "CATEGORIA": "Suprimentos",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 20,
+          "ID": "P-019",
+          "PRODUTO": "Cartucho de Tinta Colorido",
+          "CATEGORIA": "Suprimentos",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 21,
+          "ID": "P-020",
+          "PRODUTO": "Papel Sulfite A4 500fls",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 40,
+          "ESTOQUE_MINIMO": 20
+        }
+      },
+      {
+        "json": {
+          "row_number": 22,
+          "ID": "P-021",
+          "PRODUTO": "Bloco de Notas",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 30,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 23,
+          "ID": "P-022",
+          "PRODUTO": "Caneta Esferográfica Azul",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 200,
+          "ESTOQUE_MINIMO": 100
+        }
+      },
+      {
+        "json": {
+          "row_number": 24,
+          "ID": "P-023",
+          "PRODUTO": "Caneta Marca Texto",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 60,
+          "ESTOQUE_MINIMO": 30
+        }
+      },
+      {
+        "json": {
+          "row_number": 25,
+          "ID": "P-024",
+          "PRODUTO": "Pasta Suspensa",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 80,
+          "ESTOQUE_MINIMO": 40
+        }
+      },
+      {
+        "json": {
+          "row_number": 26,
+          "ID": "P-025",
+          "PRODUTO": "HD Externo 1TB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 7,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 27,
+          "ID": "P-026",
+          "PRODUTO": "HD Externo 2TB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 5,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 28,
+          "ID": "P-027",
+          "PRODUTO": "SSD 480GB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 12,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 29,
+          "ID": "P-028",
+          "PRODUTO": "SSD 1TB",
+          "CATEGORIA": "Armazenamento",
+          "ESTOQUE_ATUAL": 8,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 30,
+          "ID": "P-029",
+          "PRODUTO": "Switch 8 Portas",
+          "CATEGORIA": "Redes",
+          "ESTOQUE_ATUAL": 6,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 31,
+          "ID": "P-030",
+          "PRODUTO": "Roteador Wi-Fi AC",
+          "CATEGORIA": "Redes",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 32,
+          "ID": "P-031",
+          "PRODUTO": "Cabo de Rede 5m",
+          "CATEGORIA": "Redes",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 20
+        }
+      },
+      {
+        "json": {
+          "row_number": 33,
+          "ID": "P-032",
+          "PRODUTO": "Nobreak 1200VA",
+          "CATEGORIA": "Energia",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 34,
+          "ID": "P-033",
+          "PRODUTO": "Filtro de Linha",
+          "CATEGORIA": "Energia",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 35,
+          "ID": "P-034",
+          "PRODUTO": "Suporte para Notebook",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 16,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 36,
+          "ID": "P-035",
+          "PRODUTO": "Suporte para CPU",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 10,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 37,
+          "ID": "P-036",
+          "PRODUTO": "Lixeira 20L",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 14,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 38,
+          "ID": "P-037",
+          "PRODUTO": "Desinfetante 5L",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 39,
+          "ID": "P-038",
+          "PRODUTO": "Detergente Neutro",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 6
+        }
+      },
+      {
+        "json": {
+          "row_number": 40,
+          "ID": "P-039",
+          "PRODUTO": "Álcool em Gel 500ml",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 30,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 41,
+          "ID": "P-040",
+          "PRODUTO": "Toalha de Papel",
+          "CATEGORIA": "Limpeza",
+          "ESTOQUE_ATUAL": 25,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 42,
+          "ID": "P-041",
+          "PRODUTO": "Café em Pó 500g",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 20,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 43,
+          "ID": "P-042",
+          "PRODUTO": "Açúcar Refinado 1kg",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 15,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 44,
+          "ID": "P-043",
+          "PRODUTO": "Copo Descartável 200ml",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 37,
+          "ESTOQUE_MINIMO": 50
+        }
+      },
+      {
+        "json": {
+          "row_number": 45,
+          "ID": "P-044",
+          "PRODUTO": "Guardanapo de Papel",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 60,
+          "ESTOQUE_MINIMO": 30
+        }
+      },
+      {
+        "json": {
+          "row_number": 46,
+          "ID": "P-045",
+          "PRODUTO": "Leite em Pó 400g",
+          "CATEGORIA": "Copa",
+          "ESTOQUE_ATUAL": 8,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 47,
+          "ID": "P-046",
+          "PRODUTO": "Cadeira Gamer",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 20,
+          "ESTOQUE_MINIMO": 17
+        }
+      },
+      {
+        "json": {
+          "row_number": 48,
+          "ID": "P-047",
+          "PRODUTO": "Suporte de Parede p/ TV",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 11,
+          "ESTOQUE_MINIMO": 4
+        }
+      },
+      {
+        "json": {
+          "row_number": 49,
+          "ID": "P-048",
+          "PRODUTO": "TV 50\" Sala Reunião",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 2,
+          "ESTOQUE_MINIMO": 2
+        }
+      },
+      {
+        "json": {
+          "row_number": 50,
+          "ID": "P-049",
+          "PRODUTO": "Projetor Multimídia",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 3,
+          "ESTOQUE_MINIMO": 2
+        }
+      },
+      {
+        "json": {
+          "row_number": 51,
+          "ID": "P-050",
+          "PRODUTO": "Tela de Projeção",
+          "CATEGORIA": "Monitores",
+          "ESTOQUE_ATUAL": 4,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 52,
+          "ID": "P-051",
+          "PRODUTO": "Hub USB 4 Portas",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 22,
+          "ESTOQUE_MINIMO": 8
+        }
+      },
+      {
+        "json": {
+          "row_number": 53,
+          "ID": "P-052",
+          "PRODUTO": "Leitor de Cartão SD",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 13,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 54,
+          "ID": "P-053",
+          "PRODUTO": "Scanner de Mesa",
+          "CATEGORIA": "Periféricos",
+          "ESTOQUE_ATUAL": 2,
+          "ESTOQUE_MINIMO": 2
+        }
+      },
+      {
+        "json": {
+          "row_number": 55,
+          "ID": "P-054",
+          "PRODUTO": "Microfone USB",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 9,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 56,
+          "ID": "P-055",
+          "PRODUTO": "Tripé para Webcam",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 12,
+          "ESTOQUE_MINIMO": 5
+        }
+      },
+      {
+        "json": {
+          "row_number": 57,
+          "ID": "P-056",
+          "PRODUTO": "Cadeira de Escritório Simples",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 18,
+          "ESTOQUE_MINIMO": 10
+        }
+      },
+      {
+        "json": {
+          "row_number": 58,
+          "ID": "P-057",
+          "PRODUTO": "Estante para Livros",
+          "CATEGORIA": "Móveis",
+          "ESTOQUE_ATUAL": 6,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 59,
+          "ID": "P-058",
+          "PRODUTO": "Quadro Branco 120x90cm",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 5,
+          "ESTOQUE_MINIMO": 3
+        }
+      },
+      {
+        "json": {
+          "row_number": 60,
+          "ID": "P-059",
+          "PRODUTO": "Marcador para Quadro Branco",
+          "CATEGORIA": "Papelaria",
+          "ESTOQUE_ATUAL": 40,
+          "ESTOQUE_MINIMO": 15
+        }
+      },
+      {
+        "json": {
+          "row_number": 61,
+          "ID": "P-060",
+          "PRODUTO": "Apagador para Quadro Branco",
+          "CATEGORIA": "Acessórios",
+          "ESTOQUE_ATUAL": 10,
+          "ESTOQUE_MINIMO": 5
+        }
+      }
+    ],
+    "Send a message": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "20a431ba-35c7-499b-a7f6-f2bc7e749e68",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5b7eabb09af229245ce0fbde66e3555414f94336f2963b833be23c231678374b"
+  },
+  "nodeGroups": [],
+  "id": "bzQXhKcsuQFXUev5",
+  "tags": []
+}
